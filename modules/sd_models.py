@@ -36,20 +36,11 @@ class ModelType(enum.Enum):
 
 
 def replace_key(d, key, new_key, value):
-    keys = list(d.keys())
-
+    # Python 3.7+ preserves dict insertion order
+    # Simplify: remove old key if it exists and add new key with value
+    if key in d:
+        del d[key]
     d[new_key] = value
-
-    if key not in keys:
-        return d
-
-    index = keys.index(key)
-    keys[index] = new_key
-
-    new_d = {k: d[k] for k in keys}
-
-    d.clear()
-    d.update(new_d)
     return d
 
 
